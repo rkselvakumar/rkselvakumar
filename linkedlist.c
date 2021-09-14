@@ -1,21 +1,34 @@
+/******************************************************************************
+
+      This code is developed by Dr R. K. SELVAKUMAR, PROFESSOR/CSE   
+    CVR COLLEGE OF ENGINEERING, HYDERABAD
+*******************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-
-
 
 typedef struct Node {
     int data;
     struct Node* next;
 }*Ptr;
 
+Ptr Create()
+{
+    /* It creeates the dummy node and return the address is head node address */
+    Ptr head =  malloc(sizeof(struct Node));
+    head->next=NULL;
+    return head;
+}
+
 int Length(Ptr p)
 {
+    /* This function return the length of the linked list which is the number
+       of elements in the singly linked list */
+    
     Ptr Temp;
-   
-     int count=0;
-     Temp=p->next;
+    int count=0;
+    Temp=p->next;
     while (Temp!=NULL)
     {
         count++;
@@ -27,6 +40,8 @@ int Length(Ptr p)
 
 Ptr Find(Ptr p, int elt)
 {
+    /* Find function locate the position of search element and return the prev node address. If the data 
+       is not present it return NULL address*/
     Ptr Temp,Prev;
     int pos=1;
      Prev=p;
@@ -46,23 +61,9 @@ Ptr Find(Ptr p, int elt)
     
 }
 
-void Remove(Ptr p, int elt)
-{
-    Ptr Prev=Find(p,elt);
-    Ptr Temp;
-    if (Prev==NULL)
-        printf("\nYour data is not present in the list");
-        else
-        {
-           Temp=Prev->next;
-           Prev->next=Temp->next;
-           free(Temp);
-           printf("\nYour data is successfully removed in the list"); 
-        }
-}
-
 void Insert(Ptr p, int pos,int elt)
 {
+    /* This function insert a data in a specific valid position in the available linked list */
     Ptr T = malloc(sizeof(struct Node));
     Ptr S,Temp;
     int count=0;
@@ -86,17 +87,51 @@ void Insert(Ptr p, int pos,int elt)
        T->next=Temp;
        S->next=T;
    }
+   
 }
 
-Ptr Create()
+
+
+Ptr Reverse(Ptr p)
 {
-    Ptr head =  malloc(sizeof(struct Node));
-    head->next=NULL;
-    return head;
+    /* This function create a reverse linked list without affecting orginal list and return the new pointer  */
+    Ptr Temp,RPointer;
+    int pos=1;
+    RPointer = Create();
+    
+    Temp=p->next;
+    while (Temp!=NULL)
+    {
+        Insert(RPointer, 1, Temp->data);
+        Temp = Temp->next;
+    }
+    return RPointer;
+    
 }
+
+
+
+void Remove(Ptr p, int elt)
+{
+    /* This function find the specific data in the linked list and remove the element in the list*/
+    Ptr Prev=Find(p,elt);
+    Ptr Temp;
+    if (Prev==NULL)
+        printf("\nYour data is not present in the list");
+        else
+        {
+           Temp=Prev->next;
+           Prev->next=Temp->next;
+           free(Temp);
+           printf("\nYour data is successfully removed in the list"); 
+        }
+}
+
+
 
 void Display(Ptr p)
 {
+    /* This function print the data in the linked list*/
     Ptr Temp;
     Temp=p->next;
     while (Temp!=NULL)
@@ -121,41 +156,45 @@ void Menu()
 
 int main()
 {
-   Ptr Pointer,ptr1;
+   Ptr Pointer,ptr1,ptr2;
    int opt=1, elt,pos;
    while (opt<7)
    {   
-       getch();
        Menu();
        printf("\n Select the option<1...6> :");
        scanf("%d",&opt);
        switch (opt)
        {
-         case 1: Pointer=Create();
-             break;
+         case 1: 
+                    Pointer=Create();
+                    break;
          case 2:
-             printf("\n Enter the position and data :");
-             scanf("%d%d",&pos,&elt);
-             Insert(Pointer,pos,elt);
-             break;
+                    printf("\n Enter the position and data :");
+                    scanf("%d%d",&pos,&elt);
+                    Insert(Pointer,pos,elt);
+                    break;
          case 3:
-              printf("\n Enter the data to remove :");
-              scanf("%d",&elt);
-              Remove(Pointer, elt);
-              break;
+                    printf("\n Enter the data to remove :");
+                    scanf("%d",&elt);
+                    Remove(Pointer, elt);
+                    break;
          case 4: 
-              printf("\n Enter the data to find :");
-              scanf("%d",&elt);
-              ptr1=Find(Pointer, elt);
-             break;
+                    printf("\n Enter the data to find :");
+                    scanf("%d",&elt);
+                    ptr1=Find(Pointer, elt);
+                    break;
          case 5:
-                 
-                 break;
-         case 6: Display(Pointer);
-                 getch();
-                 break; 
+                    ptr2=Reverse(Pointer);
+                    Display(ptr2);
+                    getchar();
+                    break;
+         case 6: 
+                    Display(Pointer);
+                    getchar();
+                    break; 
          default :
-            break;
+                    printf("\n Exit");
+                    break;
           
        }
    }
