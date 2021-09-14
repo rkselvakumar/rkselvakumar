@@ -86,7 +86,6 @@ void Insert(Ptr p, int pos,int elt)
        T->next=Temp;
        S->next=T;
    }
-   
 }
 
 Ptr Create()
