@@ -1,5 +1,5 @@
-/******************************************************************************
 
+/******************************************************************************
       This code is developed by Dr R. K. SELVAKUMAR, PROFESSOR/CSE   
     CVR COLLEGE OF ENGINEERING, HYDERABAD
 *******************************************************************************/
@@ -96,7 +96,6 @@ Ptr Reverse(Ptr p)
 {
     /* This function create a reverse linked list without affecting orginal list and return the new pointer  */
     Ptr Temp,RPointer;
-    int pos=1;
     RPointer = Create();
     
     Temp=p->next;
@@ -109,7 +108,36 @@ Ptr Reverse(Ptr p)
     
 }
 
-
+Ptr Sort(Ptr p)
+{
+    /* This function create a sorted linked list without affecting orginal list and return the new pointer  */
+    Ptr Temp1,Temp2,SPointer,T,Prev;
+    SPointer = Create();
+    
+    Temp1=p->next;
+    
+    
+    while (Temp1!=NULL)
+    {
+        T = malloc(sizeof(struct Node));
+        T->data = Temp1->data;
+        
+        Prev = SPointer;
+        Temp2=SPointer->next;
+        
+        while (Temp2!=NULL && Temp2->data < T->data)
+        {
+           Prev = Temp2;
+           Temp2 = Temp2->next; 
+        }
+        T->next = Temp2;
+        Prev->next = T;
+        
+        Temp1 = Temp1->next;
+    }
+    return SPointer;
+    
+}
 
 void Remove(Ptr p, int elt)
 {
@@ -144,24 +172,26 @@ void Display(Ptr p)
 void Menu()
 {
     printf("\n MAIN MENU");
+    printf("\n***********");
     printf("\n 1. Create");
     printf("\n 2. Insert");
     printf("\n 3. Remove");
     printf("\n 4. Find");
     printf("\n 5. Reverse");
-    printf("\n 6. Print");
-    printf("\n 7. Quit");
+    printf("\n 6. Sort");
+    printf("\n 7. Print");
+    printf("\n 8. Quit");
     
 }
 
 int main()
 {
-   Ptr Pointer,ptr1,ptr2;
+   Ptr Pointer,ptr1,ptr2,ptr3;
    int opt=1, elt,pos;
-   while (opt<7)
+   while (opt<8)
    {   
        Menu();
-       printf("\n Select the option<1...6> :");
+       printf("\n Select the option<1...8> :");
        scanf("%d",&opt);
        switch (opt)
        {
@@ -188,7 +218,13 @@ int main()
                     Display(ptr2);
                     getchar();
                     break;
-         case 6: 
+         case 6:
+                    ptr3=Sort(Pointer);
+                    Display(ptr3);
+                    getchar();
+                    break;
+         case 7: 
+                
                     Display(Pointer);
                     getchar();
                     break; 
